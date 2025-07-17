@@ -804,6 +804,8 @@
                                 </div>
                               </>
                             )}
+                                    </div>
+                            
                            {/* Available Exceptions Status */}
 <div className="mt-2 pt-2 border-t border-gray-600">
   <span className="text-gray-400">Key Exceptions:</span>
@@ -842,7 +844,8 @@
         <div className="text-xs text-green-300">• TP-MLE: Available ✓</div>
       )
     )}
-    
+      
+          </div>
     {/* Other exceptions */}
     {teamData[selectedTeam].exceptionsUsed.includes("aggregation") && (
       <div className="text-xs text-red-300">• Salary Aggregation: Used (2nd apron HC) ❌</div>
