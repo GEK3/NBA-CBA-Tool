@@ -39,7 +39,7 @@
             { id: "TradeRoomPlus", label: "Trade Using Room + $250k", description: "Acquire players using cap room plus additional $250k cushion" },
             { id: "VetMin", label: "Veteran Minimum", description: "Sign players to minimum contracts" },
             { id: "RookieSign", label: "Sign Draft Picks", description: "Sign first and second-round picks" },
-            { id: "UseTPA", label: "Disabled Player Exception", description: "Replace injured players (lesser of 50% salary or NT-MLE)" },
+            { id: "UseDPE", label: "Disabled Player Exception", description: "Replace injured players (lesser of 50% salary or NT-MLE)" },
           ],
           NonTaxTeam: [
             { id: "NTMLE", label: "Non-Taxpayer MLE ($14.104M)", description: "Full mid-level exception" },
@@ -51,7 +51,7 @@
             { id: "TPEUse", label: "Trade Player Exception", description: "Use existing trade exceptions" },
             { id: "VetMin", label: "Veteran Minimum", description: "Sign players to minimum contracts" },
             { id: "RookieSign", label: "Sign Draft Picks", description: "Sign first and second-round picks" },
-            { id: "UseTPA", label: "Disabled Player Exception", description: "Replace injured players" },
+            { id: "UseDPE", label: "Disabled Player Exception", description: "Replace injured players" },
             { id: "StretchWaive", label: "Stretch & Waive", description: "Spread dead money over multiple years" },
           ],
           TaxTeam: [
@@ -64,7 +64,7 @@
             { id: "TPEUse", label: "Trade Player Exception", description: "Use existing trade exceptions" },
             { id: "VetMin", label: "Veteran Minimum", description: "Sign players to minimum contracts" },
             { id: "RookieSign", label: "Sign Draft Picks", description: "Sign first and second-round picks" },
-            { id: "UseTPA", label: "Disabled Player Exception", description: "Replace injured players" },
+            { id: "UseDPE", label: "Disabled Player Exception", description: "Replace injured players" },
             { id: "StretchWaive", label: "Stretch & Waive", description: "Spread dead money over multiple years" },
           ],
           FirstApronTeam: [
@@ -74,7 +74,7 @@
             { id: "VetMin", label: "Veteran Minimum", description: "Sign players to minimum contracts" },
             { id: "Use2Way", label: "Two-Way Contracts", description: "Sign players to two-way deals" },
             { id: "RookieSign", label: "Sign Draft Picks", description: "Sign first and second-round picks" },
-            { id: "UseTPA", label: "Disabled Player Exception", description: "Replace injured players" },
+            { id: "UseDPE", label: "Disabled Player Exception", description: "Replace injured players" },
             { id: "StretchWaive", label: "Stretch & Waive", description: "Spread dead money over multiple years" },
           ],
           SecondApronTeam: [
@@ -248,7 +248,6 @@
             ],
             cons: [
               "Much smaller than Non-Taxpayer MLE",
-              "Cannot be used in sign-and-trades",
               "Limited player pool at this salary",
               "Not available to teams over second apron"
             ],
@@ -352,7 +351,7 @@
               "Still paying player not on roster",
               "Reduces future flexibility"
             ],
-            restrictions: ["Formula: (Years remaining × 2) + 1"]
+            restrictions: ["Formula: Total Salary / (Years remaining × 2) + 1"]
           }
         };
 
@@ -413,9 +412,9 @@
               
               // Auto-determine cap status based on apron salary
               let capStatus = "";
-              if (apronSalary < 139.182) {
+              if (apronSalary < 154.647) {
                 capStatus = "RoomTeam";
-              } else if (apronSalary < 154.647) {
+              } else if (apronSalary < 187.895) {
                 capStatus = "NonTaxTeam";
               } else if (apronSalary < 195.945) {
                 capStatus = "TaxTeam";
@@ -458,8 +457,8 @@
 
           const getTeamCapStatus = (salary) => {
             const sal = parseFloat(salary);
-            if (sal < 139.182) return "Under Cap";
-            if (sal < 154.647) return "Under Tax";
+            if (sal < 154.647) return "Under Cap";
+            if (sal < 187.895) return "Under Tax";
             if (sal < 195.945) return "Over Tax";
             if (sal < 207.824) return "Over 1st Apron";
             return "Over 2nd Apron";
@@ -473,8 +472,8 @@
 
           // Calculate league overview
           const leagueOverview = Object.values(teamData).reduce((acc, team) => {
-            if (team.apronSalary < 139.182) acc.underCap++;
-            else if (team.apronSalary < 154.647) acc.nonTax++;
+            if (team.apronSalary < 154.647) acc.underCap++;
+            else if (team.apronSalary < 187.895) acc.nonTax++;
             else if (team.apronSalary < 195.945) acc.overTax++;
             else if (team.apronSalary < 207.824) acc.over1st++;
             else acc.over2nd++;
@@ -766,8 +765,8 @@
                             <div className="flex justify-between">
                               <span className="text-gray-400">Apron Status:</span>
                               <span className={
-                                teamData[selectedTeam].apronSalary < 139.182 ? "text-green-400" :
-                                teamData[selectedTeam].apronSalary < 154.647 ? "text-blue-400" :
+                                teamData[selectedTeam].apronSalary < 154.647 ? "text-green-400" :
+                                teamData[selectedTeam].apronSalary < 187.895 ? "text-blue-400" :
                                 teamData[selectedTeam].apronSalary < 195.945 ? "text-yellow-400" :
                                 teamData[selectedTeam].apronSalary < 207.824 ? "text-orange-400" :
                                 "text-red-400"
@@ -1178,8 +1177,8 @@
                           <tr className="text-xs">
                             <td className="py-2 px-2 text-gray-500">Threshold</td>
                             <td className="text-center py-2 px-2 text-gray-500">
-                              {selectedCap === "RoomTeam" && "$139.182M"}
-                              {selectedCap === "NonTaxTeam" && "$154.647M"}
+                              {selectedCap === "RoomTeam" && "$154.647M"}
+                              {selectedCap === "NonTaxTeam" && "$187.895M"}
                               {selectedCap === "TaxTeam" && "$195.945M"}
                               {selectedCap === "FirstApronTeam" && "$207.824M"}
                               {selectedCap === "SecondApronTeam" && "> $207.824M"}
@@ -1378,9 +1377,9 @@
                         </tr>
                         <tr className="border-b border-gray-700/30">
                           <td className="py-2 px-1 font-medium">PHX</td>
-                          <td className="text-center py-2 px-1">$247.4M</td>
-                          <td className="text-center py-2 px-1">$221.4M</td>
-                          <td className="text-center py-2 px-1 text-red-400">Over 2nd</td>
+                          <td className="text-center py-2 px-1">$185.795M</td>
+                          <td className="text-center py-2 px-1">$185.795M</td>
+                          <td className="text-center py-2 px-1 text-red-400">Over Tax</td>
                           <td className="text-center py-2 px-1">—</td>
                           <td className="text-center py-2 px-1 text-xs">No hard cap</td>
                         </tr>
