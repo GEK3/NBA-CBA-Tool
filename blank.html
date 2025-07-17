@@ -623,8 +623,8 @@
                         {Object.keys(teamData).sort().map(team => {
                           const apronSalary = teamData[team].apronSalary;
                           let statusEmoji = "";
-                          if (apronSalary < 139.182) statusEmoji = "🟢"; // Under cap
-                          else if (apronSalary < 154.647) statusEmoji = "🔵"; // Non-tax
+                          if (apronSalary < 154.647) statusEmoji = "🟢"; // Under cap
+                          else if (apronSalary < 187.895) statusEmoji = "🔵"; // Non-tax
                           else if (apronSalary < 195.945) statusEmoji = "🟡"; // Over tax
                           else if (apronSalary < 207.824) statusEmoji = "🟠"; // Over 1st apron
                           else statusEmoji = "🔴"; // Over 2nd apron
@@ -652,7 +652,7 @@
                         <span className="mr-3">🔒2nd = Hard-capped at 2nd apron ($207.8M)</span>
                       </div>
                       
-                      <label className="block text-sm font-medium mb-2">Or Enter Apron Salary Manually (millions)</label>
+                      <label className="block text-sm font-medium mb-2 mt-4">Or Enter Apron Salary Manually (millions)</label>
                       <input
                         type="text"
                         value={teamSalary}
@@ -665,8 +665,8 @@
                           <p className="mt-2 text-sm">
                             <span className="text-gray-400">Status: </span>
                             <span className={
-                              parseFloat(teamSalary) < 139.182 ? "text-green-400" :
-                              parseFloat(teamSalary) < 154.647 ? "text-blue-400" :
+                              parseFloat(teamSalary) < 154.647 ? "text-green-400" :
+                              parseFloat(teamSalary) < 187.895 ? "text-blue-400" :
                               parseFloat(teamSalary) < 195.945 ? "text-yellow-400" :
                               parseFloat(teamSalary) < 207.824 ? "text-orange-400" :
                               "text-red-400"
@@ -805,54 +805,58 @@
                               </>
                             )}
                             
-                           {/* Available Exceptions Status */}
-<div className="mt-2 pt-2 border-t border-gray-600">
-  <span className="text-gray-400">Key Exceptions:</span>
-  <div className="mt-1 space-y-1">
-    {/* Room MLE Status */}
-    {teamData[selectedTeam].exceptionsUsed.includes("RoomMLE") && (
-      <div className="text-xs text-red-300">• Room MLE: Used ❌</div>
-    )}
-    
-    {/* NT-MLE Status - Not available if Room MLE was used */}
-    {teamData[selectedTeam].exceptionsUsed.includes("RoomMLE") ? (
-      <div className="text-xs text-gray-500">• NT-MLE: Not Available (used cap space)</div>
-    ) : teamData[selectedTeam].exceptionsUsed.includes("NTMLE") || 
-       teamData[selectedTeam].exceptionsUsed.includes("MLE") ? (
-      <div className="text-xs text-red-300">• NT-MLE: Used ❌</div>
-    ) : (
-      <div className="text-xs text-green-300">• NT-MLE: Available ✓</div>
-    )}
-    
-    {/* BAE Status - Not available if Room MLE was used */}
-    {teamData[selectedTeam].exceptionsUsed.includes("RoomMLE") ? (
-      <div className="text-xs text-gray-500">• BAE: Not Available (used cap space)</div>
-    ) : teamData[selectedTeam].exceptionsUsed.includes("BAE") ? (
-      <div className="text-xs text-red-300">• BAE: Used ❌</div>
-    ) : (
-      <div className="text-xs text-green-300">• BAE: Available ✓</div>
-    )}
-    
-    {/* TP-MLE Status - Only show for tax teams, not available if Room MLE used */}
-    {teamData[selectedTeam].apronSalary >= 187.895 && (
-      teamData[selectedTeam].exceptionsUsed.includes("RoomMLE") ? (
-        <div className="text-xs text-gray-500">• TP-MLE: Not Available (used cap space)</div>
-      ) : teamData[selectedTeam].exceptionsUsed.includes("TPMLE") ? (
-        <div className="text-xs text-red-300">• TP-MLE: Used ❌</div>
-      ) : (
-        <div className="text-xs text-green-300">• TP-MLE: Available ✓</div>
-      )
-    )}
-    
-    {/* Other exceptions */}
-    {teamData[selectedTeam].exceptionsUsed.includes("aggregation") && (
-      <div className="text-xs text-red-300">• Salary Aggregation: Used (2nd apron HC) ❌</div>
-    )}
-    {teamData[selectedTeam].exceptionsUsed.includes("SNT") && (
-      <div className="text-xs text-red-300">• Sign-and-Trade: Used ❌</div>
-    )}
-  </div>
-</div>
+                            {/* Available Exceptions Status */}
+                            <div className="mt-2 pt-2 border-t border-gray-600">
+                              <span className="text-gray-400">Key Exceptions:</span>
+                              <div className="mt-1 space-y-1">
+                                {/* Room MLE Status */}
+                                {teamData[selectedTeam].exceptionsUsed.includes("RoomMLE") && (
+                                  <div className="text-xs text-red-300">• Room MLE: Used ❌</div>
+                                )}
+                                
+                                {/* NT-MLE Status - Not available if Room MLE was used */}
+                                {teamData[selectedTeam].exceptionsUsed.includes("RoomMLE") ? (
+                                  <div className="text-xs text-gray-500">• NT-MLE: Not Available (used cap space)</div>
+                                ) : teamData[selectedTeam].exceptionsUsed.includes("NTMLE") || 
+                                   teamData[selectedTeam].exceptionsUsed.includes("MLE") ? (
+                                  <div className="text-xs text-red-300">• NT-MLE: Used ❌</div>
+                                ) : (
+                                  <div className="text-xs text-green-300">• NT-MLE: Available ✓</div>
+                                )}
+                                
+                                {/* BAE Status - Not available if Room MLE was used */}
+                                {teamData[selectedTeam].exceptionsUsed.includes("RoomMLE") ? (
+                                  <div className="text-xs text-gray-500">• BAE: Not Available (used cap space)</div>
+                                ) : teamData[selectedTeam].exceptionsUsed.includes("BAE") ? (
+                                  <div className="text-xs text-red-300">• BAE: Used ❌</div>
+                                ) : (
+                                  <div className="text-xs text-green-300">• BAE: Available ✓</div>
+                                )}
+                                
+                                {/* TP-MLE Status - Only show for tax teams, not available if Room MLE used */}
+                                {teamData[selectedTeam].apronSalary >= 187.895 && (
+                                  teamData[selectedTeam].exceptionsUsed.includes("RoomMLE") ? (
+                                    <div className="text-xs text-gray-500">• TP-MLE: Not Available (used cap space)</div>
+                                  ) : teamData[selectedTeam].exceptionsUsed.includes("TPMLE") ? (
+                                    <div className="text-xs text-red-300">• TP-MLE: Used ❌</div>
+                                  ) : (
+                                    <div className="text-xs text-green-300">• TP-MLE: Available ✓</div>
+                                  )
+                                )}
+                              </div>
+                              
+                              {/* Other exceptions */}
+                              {teamData[selectedTeam].exceptionsUsed.includes("aggregation") && (
+                                <div className="text-xs text-red-300">• Salary Aggregation: Used (2nd apron HC) ❌</div>
+                              )}
+                              {teamData[selectedTeam].exceptionsUsed.includes("SNT") && (
+                                <div className="text-xs text-red-300">• Sign-and-Trade: Used ❌</div>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
                     
                     <div>
                       <label className="block text-sm font-medium mb-2">Team Cap Status</label>
@@ -1127,7 +1131,7 @@
                         </div>
                       )}
                       {(implications?.restrictions.includes("Hard cap at $195.945M (first apron)") || 
-                        implications?.restrictions.includes("Hard cap at $195.945M if: Contract is 3+ years OR salary is $5.7M+")) && (
+                        implications?.restrictions.includes("Hard cap at $195.945M if: Contract is 3+ years OR total MLE usage exceeds $5.685M (taxpayer MLE limit)")) && (
                         <div className="flex justify-between text-red-400">
                           <span>Hard Cap:</span>
                           <span>$195.945M (First Apron){implications?.restrictions.includes("if:") ? "*" : ""}</span>
@@ -1179,7 +1183,7 @@
                             </td>
                             <td className="text-center py-3 px-2">
                               {(implications?.restrictions.includes("Hard cap at $195.945M (first apron)") || 
-                                implications?.restrictions.includes("Hard cap at $195.945M if: Contract is 3+ years OR salary is $5.7M+")) ? (
+                                implications?.restrictions.includes("Hard cap at $195.945M if: Contract is 3+ years OR total MLE usage exceeds $5.685M (taxpayer MLE limit)")) ? (
                                 <span className="text-red-400 font-semibold flex items-center justify-center">
                                   <span className="mr-1">🔒</span> 
                                   {implications?.restrictions.includes("if:") ? "LOCKED*" : "LOCKED"}
@@ -1214,7 +1218,7 @@
                       </table>
                       {selectedTool === "NTMLE" && (
                         <p className="text-xs text-gray-500 mt-2">
-                          * LOCKED only if contract is 3+ years OR salary is $5.7M+
+                          * LOCKED only if contract is 3+ years OR total MLE usage exceeds $5.685M
                         </p>
                       )}
                     </div>
@@ -1228,7 +1232,7 @@
                             <>
                               <li>• Hard cap triggers ONLY if:</li>
                               <li className="ml-4">- Contract is 3+ years, OR</li>
-                              <li className="ml-4">- Total salary (can be split) is $5.685M+</li>
+                              <li className="ml-4">- Total MLE usage (can be split) exceeds $5.685M</li>
                               <li>• If you use less than $5.685M on 1-2 year deals: No hard cap</li>
                               <li>• Once triggered, cannot exceed $195.945M for any reason</li>
                               {selectedTeam && teamData[selectedTeam].hardCap && (
@@ -1308,7 +1312,7 @@
                               <li>• Players must have 3 or fewer years of service</li>
                             </>
                           )}
-                          {selectedTool === "UseTPA" && (
+                          {selectedTool === "UseDPE" && (
                             <>
                               <li>• No automatic hard cap</li>
                               <li>• Must apply between July 1 and January 15</li>
@@ -1403,9 +1407,9 @@
                           <td className="py-2 px-1 font-medium">PHX</td>
                           <td className="text-center py-2 px-1">$185.795M</td>
                           <td className="text-center py-2 px-1">$185.795M</td>
-                          <td className="text-center py-2 px-1 text-red-400">Over Tax</td>
+                          <td className="text-center py-2 px-1 text-blue-400">Non-Tax</td>
                           <td className="text-center py-2 px-1">—</td>
-                          <td className="text-center py-2 px-1 text-xs">No hard cap</td>
+                          <td className="text-center py-2 px-1 text-xs">Equal cap/apron</td>
                         </tr>
                         <tr className="border-b border-gray-700/30">
                           <td className="py-2 px-1 font-medium">CLE</td>
@@ -1610,6 +1614,7 @@
                         <li>• <span className="text-yellow-300">NT-MLE:</span> Using MLE exceeding taxpayer limits ($5.685M or 3+ years)</li>
                         <li>• <span className="text-yellow-300">BAE:</span> Using the Bi-Annual Exception</li>
                         <li>• <span className="text-yellow-300">Sign-and-Trade:</span> Acquiring a player via sign-and-trade</li>
+                        <li>• <span className="text-yellow-300">Expanded Trade:</span> Using expanded trade matching rules</li>
                         <li>• <span className="text-yellow-300">Waived Player:</span> Signing player waived during season whose salary exceeded NT-MLE</li>
                         <li>• <span className="text-yellow-300">Prior TPE:</span> Using a traded player exception from previous season</li>
                       </ul>
