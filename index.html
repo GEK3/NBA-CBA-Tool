@@ -371,7 +371,7 @@
           IND: { capSalary: 188.131, apronSalary: 181.235, hardCap: null, exceptionsUsed: [] },
           LAC: { capSalary: 210.839, apronSalary: 192.371, hardCap: "first", reason: "Split NT-MLE between Brook Lopez (Jul 6) and Bradley Beal ($5.354M)", exceptionsUsed: ["NTMLE"] },
           LAL: { capSalary: 214.182, apronSalary: 195.036, hardCap: "first", reason: "Signed Jake LaRavia (Jul 6)", exceptionsUsed: [] },
-          MEM: { capSalary: 173.249, apronSalary: 151.129, hardCap: "first", reason: "Signed Ty Jerome using Room MLE (Jun 30)", exceptionsUsed: ["RoomMLE"] },
+          MEM: { capSalary: 173.249, apronSalary: 171,507, hardCap: "first", reason: "Signed Ty Jerome using Room MLE (Jun 30)", exceptionsUsed: ["RoomMLE"] },
           MIA: { capSalary: 202.819, apronSalary: 191.789, hardCap: "first", reason: "Used exception triggering hard cap", exceptionsUsed: [] },
           MIL: { capSalary: 167.193, apronSalary: 169.593, hardCap: null, exceptionsUsed: [] },
           MIN: { capSalary: 210.612, apronSalary: 171.102, hardCap: null, exceptionsUsed: [] },
@@ -804,34 +804,54 @@
                                 </div>
                               </>
                             )}
-                            {/* Available Exceptions Status */}
-                            {teamData[selectedTeam].exceptionsUsed.length > 0 && (
-                              <div className="mt-2 pt-2 border-t border-gray-600">
-                                <span className="text-gray-400">Key Exceptions:</span>
-                                <div className="mt-1 space-y-1">
-                     {teamData[selectedTeam].exceptionsUsed.includes("NTMLE") ? (
-  <div className="text-xs text-red-300">• NT-MLE: Used ❌</div>
-) : teamData[selectedTeam].exceptionsUsed.includes("MLE") ? (
-  <div className="text-xs text-red-300">• MLE: Used (Tax MLE) ❌</div>
-) : (
-  <div className="text-xs text-green-300">• NT-MLE: Available ✓</div>
-)}
-{teamData[selectedTeam].exceptionsUsed.includes("RoomMLE") && (
-  <div className="text-xs text-red-300">• Room MLE: Used ❌</div>
-)}
-                                  {teamData[selectedTeam].exceptionsUsed.includes("aggregation") && (
-                                    <div className="text-xs text-red-300">• Salary Aggregation: Used (2nd apron HC) ❌</div>
-                                  )}
-                                  {teamData[selectedTeam].exceptionsUsed.includes("SNT") && (
-                                    <div className="text-xs text-red-300">• Sign-and-Trade: Used ❌</div>
-                                  )}
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      )}
-                    </div>
+                           {/* Available Exceptions Status */}
+<div className="mt-2 pt-2 border-t border-gray-600">
+  <span className="text-gray-400">Key Exceptions:</span>
+  <div className="mt-1 space-y-1">
+    {/* Room MLE Status */}
+    {teamData[selectedTeam].exceptionsUsed.includes("RoomMLE") && (
+      <div className="text-xs text-red-300">• Room MLE: Used ❌</div>
+    )}
+    
+    {/* NT-MLE Status - Not available if Room MLE was used */}
+    {teamData[selectedTeam].exceptionsUsed.includes("RoomMLE") ? (
+      <div className="text-xs text-gray-500">• NT-MLE: Not Available (used cap space)</div>
+    ) : teamData[selectedTeam].exceptionsUsed.includes("NTMLE") || 
+       teamData[selectedTeam].exceptionsUsed.includes("MLE") ? (
+      <div className="text-xs text-red-300">• NT-MLE: Used ❌</div>
+    ) : (
+      <div className="text-xs text-green-300">• NT-MLE: Available ✓</div>
+    )}
+    
+    {/* BAE Status - Not available if Room MLE was used */}
+    {teamData[selectedTeam].exceptionsUsed.includes("RoomMLE") ? (
+      <div className="text-xs text-gray-500">• BAE: Not Available (used cap space)</div>
+    ) : teamData[selectedTeam].exceptionsUsed.includes("BAE") ? (
+      <div className="text-xs text-red-300">• BAE: Used ❌</div>
+    ) : (
+      <div className="text-xs text-green-300">• BAE: Available ✓</div>
+    )}
+    
+    {/* TP-MLE Status - Only show for tax teams, not available if Room MLE used */}
+    {teamData[selectedTeam].apronSalary >= 187.895 && (
+      teamData[selectedTeam].exceptionsUsed.includes("RoomMLE") ? (
+        <div className="text-xs text-gray-500">• TP-MLE: Not Available (used cap space)</div>
+      ) : teamData[selectedTeam].exceptionsUsed.includes("TPMLE") ? (
+        <div className="text-xs text-red-300">• TP-MLE: Used ❌</div>
+      ) : (
+        <div className="text-xs text-green-300">• TP-MLE: Available ✓</div>
+      )
+    )}
+    
+    {/* Other exceptions */}
+    {teamData[selectedTeam].exceptionsUsed.includes("aggregation") && (
+      <div className="text-xs text-red-300">• Salary Aggregation: Used (2nd apron HC) ❌</div>
+    )}
+    {teamData[selectedTeam].exceptionsUsed.includes("SNT") && (
+      <div className="text-xs text-red-300">• Sign-and-Trade: Used ❌</div>
+    )}
+  </div>
+</div>
                     
                     <div>
                       <label className="block text-sm font-medium mb-2">Team Cap Status</label>
