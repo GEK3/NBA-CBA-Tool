@@ -370,7 +370,7 @@
           HOU: { capSalary: 201.082, apronSalary: 192.393, hardCap: "first", reason: "Signed Dorian Finney-Smith (Jul 6)", exceptionsUsed: ["NTMLE"] },
           IND: { capSalary: 189.250, apronSalary: 182.353, hardCap: "first", exceptionsUsed: [] },
           LAC: { capSalary: 205.485, apronSalary: 187.016, hardCap: "first", reason: "Split NT-MLE between Brook Lopez (Jul 6) and Bradley Beal ($5.354M)", exceptionsUsed: ["NTMLE"] },
-          LAL: { capSalary: 214.182, apronSalary: 195.036, hardCap: "first", reason: "Signed Jake LaRavia $6.0M (Jul 6) & Signed Deandre Ayton $8.1M (Jul 6)", exceptionsUsed: ["NTMLE"] },
+          LAL: { capSalary: 214.182, apronSalary: 195.036, hardCap: "first", reason: "Signed Jake LaRavia (Jul 6)", exceptionsUsed: [] },
           MEM: { capSalary: 180.196, apronSalary: 172.007, hardCap: "first", reason: "Signed Ty Jerome using Room MLE (Jun 30)", exceptionsUsed: ["RoomMLE"] },
           MIA: { capSalary: 202.819, apronSalary: 191.789, hardCap: "first", reason: "Used exception triggering hard cap", exceptionsUsed: [] },
           MIL: { capSalary: 171.786, apronSalary: 174.186, hardCap: null, exceptionsUsed: [] },
@@ -425,14 +425,22 @@
 
         // League Salary Overview Chart Component
         const LeagueSalaryChart = () => {
-          // Sort teams by apron salary
+          const [salaryView, setSalaryView] = useState("apronSalary");
+          
+          // Get the selected salary value for each team
+          const getTeamSalary = (team) => {
+            if (salaryView === "capSalary") return team.capSalary;
+            return team.apronSalary; // Default to apron salary
+          };
+          
+          // Sort teams by selected salary type
           const sortedTeams = Object.entries(teamData)
-            .sort((a, b) => a[1].apronSalary - b[1].apronSalary)
+            .sort((a, b) => getTeamSalary(a[1]) - getTeamSalary(b[1]))
             .map(([team, data]) => ({ team, ...data }));
 
           // Chart dimensions
           const chartWidth = 800;
-          const chartHeight = 900;
+          const chartHeight = 920;
           const margin = { top: 20, right: 120, bottom: 60, left: 50 };
           const barHeight = 20;
           const barSpacing = 8;
@@ -443,42 +451,68 @@
           const luxuryTax = 187.895;
           const firstApron = 195.945;
           const secondApron = 207.824;
-          const maxSalary = 230;
+          
+          // Adjust max salary based on view
+          const maxSalary = salaryView === "capSalary" ? 260 : 230;
+          const minSalary = salaryView === "capSalary" ? 130 : 110;
 
           // Scale for x-axis
           const scaleX = (value) => {
-            return margin.left + ((value - 110) / (maxSalary - 110)) * (chartWidth - margin.left - margin.right);
+            return margin.left + ((value - minSalary) / (maxSalary - minSalary)) * (chartWidth - margin.left - margin.right);
+          };
+
+          // Get bar color based on salary amount
+          const getBarColor = (salary) => {
+            if (salary >= secondApron) return "#EF4444"; // Red
+            if (salary >= firstApron) return "#F59E0B"; // Orange
+            if (salary >= luxuryTax) return "#FCD34D"; // Yellow
+            if (salary >= salaryCap) return "#3B82F6"; // Blue
+            return "#10B981"; // Green
           };
 
           return (
             <div className="bg-gray-800 rounded-lg p-6 overflow-x-auto">
-              <h3 className="text-xl font-semibold mb-4">League Salary Overview (2025-26)</h3>
-              <p className="text-xs text-gray-400 mb-4">Showing each team's apron salary position relative to key thresholds</p>
+              <div className="flex justify-between items-start mb-4">
+                <div>
+                  <h3 className="text-xl font-semibold">League Salary Overview (2025-26)</h3>
+                  <p className="text-xs text-gray-400 mt-1">
+                    {salaryView === "capSalary" 
+                      ? "Showing total cap allocations (includes cap holds, exceptions, etc.)"
+                      : "Showing apron salary (excludes cap holds - used for apron status)"}
+                  </p>
+                </div>
+                <div className="flex flex-col items-end">
+                  <label className="text-xs text-gray-400 mb-1">Select Salary View:</label>
+                  <select
+                    value={salaryView}
+                    onChange={(e) => setSalaryView(e.target.value)}
+                    className="px-3 py-1 bg-gray-700 border border-gray-600 rounded text-sm text-white focus:outline-none focus:border-blue-500"
+                  >
+                    <option value="apronSalary">Apron Salary (for status)</option>
+                    <option value="capSalary">Cap Allocations (total)</option>
+                  </select>
+                </div>
+              </div>
               
               <svg width={chartWidth} height={chartHeight} className="mx-auto">
                 {/* Threshold lines */}
-                <line x1={scaleX(salaryFloor)} y1={margin.top} x2={scaleX(salaryFloor)} y2={chartHeight - margin.bottom} 
+                <line x1={scaleX(salaryFloor)} y1={margin.top + 50} x2={scaleX(salaryFloor)} y2={chartHeight - margin.bottom} 
                       stroke="#4B5563" strokeWidth="2" strokeDasharray="5,5" />
-                <line x1={scaleX(salaryCap)} y1={margin.top} x2={scaleX(salaryCap)} y2={chartHeight - margin.bottom} 
+                <line x1={scaleX(salaryCap)} y1={margin.top + 50} x2={scaleX(salaryCap)} y2={chartHeight - margin.bottom} 
                       stroke="#10B981" strokeWidth="2" />
-                <line x1={scaleX(luxuryTax)} y1={margin.top} x2={scaleX(luxuryTax)} y2={chartHeight - margin.bottom} 
+                <line x1={scaleX(luxuryTax)} y1={margin.top + 50} x2={scaleX(luxuryTax)} y2={chartHeight - margin.bottom} 
                       stroke="#3B82F6" strokeWidth="2" />
-                <line x1={scaleX(firstApron)} y1={margin.top} x2={scaleX(firstApron)} y2={chartHeight - margin.bottom} 
+                <line x1={scaleX(firstApron)} y1={margin.top + 50} x2={scaleX(firstApron)} y2={chartHeight - margin.bottom} 
                       stroke="#F59E0B" strokeWidth="2" />
-                <line x1={scaleX(secondApron)} y1={margin.top} x2={scaleX(secondApron)} y2={chartHeight - margin.bottom} 
+                <line x1={scaleX(secondApron)} y1={margin.top + 50} x2={scaleX(secondApron)} y2={chartHeight - margin.bottom} 
                       stroke="#EF4444" strokeWidth="2" />
 
                 {/* Team bars */}
                 {sortedTeams.map((teamData, index) => {
-                  const y = margin.top + index * (barHeight + barSpacing) + 30;
-                  const barWidth = scaleX(teamData.apronSalary) - margin.left;
-                  
-                  // Determine bar color based on status
-                  let barColor = "#10B981"; // Under cap
-                  if (teamData.apronSalary >= secondApron) barColor = "#EF4444";
-                  else if (teamData.apronSalary >= firstApron) barColor = "#F59E0B";
-                  else if (teamData.apronSalary >= luxuryTax) barColor = "#FCD34D";
-                  else if (teamData.apronSalary >= salaryCap) barColor = "#3B82F6";
+                  const y = margin.top + index * (barHeight + barSpacing) + 50;
+                  const salary = getTeamSalary(teamData);
+                  const barWidth = scaleX(salary) - margin.left;
+                  const barColor = getBarColor(salary);
 
                   return (
                     <g key={teamData.team}>
@@ -514,18 +548,18 @@
                       
                       {/* Salary amount */}
                       <text
-                        x={scaleX(teamData.apronSalary) + 5}
+                        x={scaleX(salary) + 5}
                         y={y + barHeight / 2 + 4}
                         fill="white"
                         fontSize="10"
                       >
-                        ${teamData.apronSalary.toFixed(1)}M
+                        ${salary.toFixed(1)}M
                       </text>
                       
                       {/* Hard cap indicator */}
                       {teamData.hardCap && (
                         <text
-                          x={scaleX(teamData.apronSalary) + 55}
+                          x={scaleX(salary) + 55}
                           y={y + barHeight / 2 + 4}
                           fill={teamData.hardCap === "first" ? "#F59E0B" : "#EF4444"}
                           fontSize="10"
@@ -535,15 +569,27 @@
                         </text>
                       )}
                       
-                      {/* Cap space indicator */}
-                      {teamData.capSpace && (
+                      {/* Cap space indicator - only show for apron salary view */}
+                      {salaryView === "apronSalary" && teamData.capSpace && (
                         <text
-                          x={scaleX(teamData.apronSalary) + 90}
+                          x={scaleX(salary) + 90}
                           y={y + barHeight / 2 + 4}
                           fill="#10B981"
                           fontSize="10"
                         >
                           💰${teamData.capSpace.toFixed(1)}M
+                        </text>
+                      )}
+                      
+                      {/* Show difference between cap and apron if viewing cap allocations */}
+                      {salaryView === "capSalary" && (
+                        <text
+                          x={scaleX(salary) + 90}
+                          y={y + barHeight / 2 + 4}
+                          fill="#9CA3AF"
+                          fontSize="9"
+                        >
+                          (Δ ${(teamData.capSalary - teamData.apronSalary).toFixed(1)}M)
                         </text>
                       )}
                     </g>
@@ -588,7 +634,7 @@
 
                 {/* Title */}
                 <text x={chartWidth / 2} y={15} textAnchor="middle" fill="white" fontSize="14" fontWeight="bold">
-                  Team Apron Salaries vs. Key Thresholds
+                  Team {salaryView === "capSalary" ? "Cap Allocations" : "Apron Salaries"} vs. Key Thresholds
                 </text>
               </svg>
 
@@ -614,6 +660,15 @@
                   <span className="text-gray-400">Over 2nd Apron</span>
                 </div>
               </div>
+              
+              {salaryView === "capSalary" && (
+                <div className="mt-4 p-3 bg-gray-700 rounded text-xs">
+                  <p className="text-gray-400">
+                    <span className="font-semibold text-yellow-400">Note:</span> Cap Allocations include cap holds, exception holds, and incomplete roster charges. 
+                    The (Δ) shows the difference between cap allocations and apron salary for each team.
+                  </p>
+                </div>
+              )}
             </div>
           );
         };
