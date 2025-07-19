@@ -389,6 +389,235 @@
           WAS: { capSalary: 241.051, apronSalary: 165.193, hardCap: "first", reason: "Used exception triggering hard cap", exceptionsUsed: [] }
         };
 
+        // Team colors for visual representation
+        const teamColors = {
+          ATL: "#E03A3E",
+          BKN: "#000000",
+          BOS: "#007A33",
+          CHA: "#1D1160",
+          CHI: "#CE1141",
+          CLE: "#6F263D",
+          DAL: "#00538C",
+          DEN: "#FEC524",
+          DET: "#C8102E",
+          GSW: "#1D428A",
+          HOU: "#CE1141",
+          IND: "#002D62",
+          LAC: "#C8102E",
+          LAL: "#552583",
+          MEM: "#5D76A9",
+          MIA: "#98002E",
+          MIL: "#00471B",
+          MIN: "#0C2340",
+          NOP: "#0C2340",
+          NYK: "#006BB6",
+          OKC: "#007AC1",
+          ORL: "#0077C0",
+          PHI: "#006BB6",
+          PHX: "#1D1160",
+          POR: "#E03A3E",
+          SAC: "#5A2D81",
+          SAS: "#C4CED4",
+          TOR: "#CE1141",
+          UTA: "#002B5C",
+          WAS: "#002B5C"
+        };
+
+        // League Salary Overview Chart Component
+        const LeagueSalaryChart = () => {
+          // Sort teams by apron salary
+          const sortedTeams = Object.entries(teamData)
+            .sort((a, b) => a[1].apronSalary - b[1].apronSalary)
+            .map(([team, data]) => ({ team, ...data }));
+
+          // Chart dimensions
+          const chartWidth = 800;
+          const chartHeight = 900;
+          const margin = { top: 20, right: 120, bottom: 60, left: 50 };
+          const barHeight = 20;
+          const barSpacing = 8;
+
+          // Salary thresholds
+          const salaryFloor = 134.352;
+          const salaryCap = 154.647;
+          const luxuryTax = 187.895;
+          const firstApron = 195.945;
+          const secondApron = 207.824;
+          const maxSalary = 230;
+
+          // Scale for x-axis
+          const scaleX = (value) => {
+            return margin.left + ((value - 110) / (maxSalary - 110)) * (chartWidth - margin.left - margin.right);
+          };
+
+          return (
+            <div className="bg-gray-800 rounded-lg p-6 overflow-x-auto">
+              <h3 className="text-xl font-semibold mb-4">League Salary Overview (2025-26)</h3>
+              <p className="text-xs text-gray-400 mb-4">Showing each team's apron salary position relative to key thresholds</p>
+              
+              <svg width={chartWidth} height={chartHeight} className="mx-auto">
+                {/* Threshold lines */}
+                <line x1={scaleX(salaryFloor)} y1={margin.top} x2={scaleX(salaryFloor)} y2={chartHeight - margin.bottom} 
+                      stroke="#4B5563" strokeWidth="2" strokeDasharray="5,5" />
+                <line x1={scaleX(salaryCap)} y1={margin.top} x2={scaleX(salaryCap)} y2={chartHeight - margin.bottom} 
+                      stroke="#10B981" strokeWidth="2" />
+                <line x1={scaleX(luxuryTax)} y1={margin.top} x2={scaleX(luxuryTax)} y2={chartHeight - margin.bottom} 
+                      stroke="#3B82F6" strokeWidth="2" />
+                <line x1={scaleX(firstApron)} y1={margin.top} x2={scaleX(firstApron)} y2={chartHeight - margin.bottom} 
+                      stroke="#F59E0B" strokeWidth="2" />
+                <line x1={scaleX(secondApron)} y1={margin.top} x2={scaleX(secondApron)} y2={chartHeight - margin.bottom} 
+                      stroke="#EF4444" strokeWidth="2" />
+
+                {/* Team bars */}
+                {sortedTeams.map((teamData, index) => {
+                  const y = margin.top + index * (barHeight + barSpacing) + 30;
+                  const barWidth = scaleX(teamData.apronSalary) - margin.left;
+                  
+                  // Determine bar color based on status
+                  let barColor = "#10B981"; // Under cap
+                  if (teamData.apronSalary >= secondApron) barColor = "#EF4444";
+                  else if (teamData.apronSalary >= firstApron) barColor = "#F59E0B";
+                  else if (teamData.apronSalary >= luxuryTax) barColor = "#FCD34D";
+                  else if (teamData.apronSalary >= salaryCap) barColor = "#3B82F6";
+
+                  return (
+                    <g key={teamData.team}>
+                      {/* Team bar */}
+                      <rect
+                        x={margin.left}
+                        y={y}
+                        width={barWidth}
+                        height={barHeight}
+                        fill={barColor}
+                        opacity="0.8"
+                      />
+                      
+                      {/* Team label box */}
+                      <rect
+                        x={margin.left - 45}
+                        y={y}
+                        width={40}
+                        height={barHeight}
+                        fill={teamColors[teamData.team]}
+                        rx="3"
+                      />
+                      <text
+                        x={margin.left - 25}
+                        y={y + barHeight / 2 + 4}
+                        textAnchor="middle"
+                        fill="white"
+                        fontSize="11"
+                        fontWeight="bold"
+                      >
+                        {teamData.team}
+                      </text>
+                      
+                      {/* Salary amount */}
+                      <text
+                        x={scaleX(teamData.apronSalary) + 5}
+                        y={y + barHeight / 2 + 4}
+                        fill="white"
+                        fontSize="10"
+                      >
+                        ${teamData.apronSalary.toFixed(1)}M
+                      </text>
+                      
+                      {/* Hard cap indicator */}
+                      {teamData.hardCap && (
+                        <text
+                          x={scaleX(teamData.apronSalary) + 55}
+                          y={y + barHeight / 2 + 4}
+                          fill={teamData.hardCap === "first" ? "#F59E0B" : "#EF4444"}
+                          fontSize="10"
+                          fontWeight="bold"
+                        >
+                          🔒{teamData.hardCap === "first" ? "1st" : "2nd"}
+                        </text>
+                      )}
+                      
+                      {/* Cap space indicator */}
+                      {teamData.capSpace && (
+                        <text
+                          x={scaleX(teamData.apronSalary) + 90}
+                          y={y + barHeight / 2 + 4}
+                          fill="#10B981"
+                          fontSize="10"
+                        >
+                          💰${teamData.capSpace.toFixed(1)}M
+                        </text>
+                      )}
+                    </g>
+                  );
+                })}
+
+                {/* X-axis labels */}
+                <text x={scaleX(salaryFloor)} y={chartHeight - margin.bottom + 20} textAnchor="middle" fill="#9CA3AF" fontSize="11">
+                  Floor
+                </text>
+                <text x={scaleX(salaryFloor)} y={chartHeight - margin.bottom + 35} textAnchor="middle" fill="#9CA3AF" fontSize="10">
+                  $134.4M
+                </text>
+                
+                <text x={scaleX(salaryCap)} y={chartHeight - margin.bottom + 20} textAnchor="middle" fill="#10B981" fontSize="11">
+                  Cap
+                </text>
+                <text x={scaleX(salaryCap)} y={chartHeight - margin.bottom + 35} textAnchor="middle" fill="#10B981" fontSize="10">
+                  $154.6M
+                </text>
+                
+                <text x={scaleX(luxuryTax)} y={chartHeight - margin.bottom + 20} textAnchor="middle" fill="#3B82F6" fontSize="11">
+                  Tax
+                </text>
+                <text x={scaleX(luxuryTax)} y={chartHeight - margin.bottom + 35} textAnchor="middle" fill="#3B82F6" fontSize="10">
+                  $187.9M
+                </text>
+                
+                <text x={scaleX(firstApron)} y={chartHeight - margin.bottom + 20} textAnchor="middle" fill="#F59E0B" fontSize="11">
+                  1st Apron
+                </text>
+                <text x={scaleX(firstApron)} y={chartHeight - margin.bottom + 35} textAnchor="middle" fill="#F59E0B" fontSize="10">
+                  $195.9M
+                </text>
+                
+                <text x={scaleX(secondApron)} y={chartHeight - margin.bottom + 20} textAnchor="middle" fill="#EF4444" fontSize="11">
+                  2nd Apron
+                </text>
+                <text x={scaleX(secondApron)} y={chartHeight - margin.bottom + 35} textAnchor="middle" fill="#EF4444" fontSize="10">
+                  $207.8M
+                </text>
+
+                {/* Title */}
+                <text x={chartWidth / 2} y={15} textAnchor="middle" fill="white" fontSize="14" fontWeight="bold">
+                  Team Apron Salaries vs. Key Thresholds
+                </text>
+              </svg>
+
+              <div className="mt-4 flex flex-wrap gap-4 text-xs justify-center">
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 bg-green-500 rounded"></div>
+                  <span className="text-gray-400">Under Cap</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 bg-blue-500 rounded"></div>
+                  <span className="text-gray-400">Under Tax</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 bg-yellow-300 rounded"></div>
+                  <span className="text-gray-400">Over Tax</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 bg-amber-500 rounded"></div>
+                  <span className="text-gray-400">Over 1st Apron</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 bg-red-500 rounded"></div>
+                  <span className="text-gray-400">Over 2nd Apron</span>
+                </div>
+              </div>
+            </div>
+          );
+        };
+
         const NBACapDecisionTool = () => {
           const [selectedTeam, setSelectedTeam] = useState("");
           const [selectedCap, setSelectedCap] = useState("");
@@ -510,62 +739,8 @@
                   </div>
                 </div>
 
-                {/* Trade Examples */}
-                <div className="mt-8 bg-gray-800 rounded-lg p-6">
-                  <h3 className="text-xl font-semibold mb-4">Trade Examples (2025-26)</h3>
-                  <div className="space-y-3 text-sm">
-                    <div className="p-3 bg-gray-700 rounded">
-                      <p className="font-semibold text-green-400">Standard Trade (Non-Tax Team):</p>
-                      <p className="text-gray-300">• Send out: $20M player</p>
-                      <p className="text-gray-300">• Can receive: Up to $20.25M (100% + $250k)</p>
-                      <p className="text-gray-300">• Creates TPE: If receive less (e.g., $15M = $5M TPE)</p>
-                    </div>
-                    
-                    <div className="p-3 bg-gray-700 rounded">
-                      <p className="font-semibold text-yellow-400">Aggregated Trade (Tax Team):</p>
-                      <p className="text-gray-300">• Send out: $15M + $10M = $25M total</p>
-                      <p className="text-gray-300">• Can receive: Up to $25.25M</p>
-                      <p className="text-gray-300">• Result: <span className="text-red-300">Hard capped at 2nd apron</span></p>
-                    </div>
-                    
-                    <div className="p-3 bg-gray-700 rounded">
-                      <p className="font-semibold text-orange-400">Expanded Trade (Non-Tax Team):</p>
-                      <p className="text-gray-300">• Send out: $10M player</p>
-                      <p className="text-gray-300">• Option 1 (lesser of):</p>
-                      <p className="text-gray-300 ml-4">- 200%: $20.25M</p>
-                      <p className="text-gray-300 ml-4">- 100% + $8.5M: $18.5M ← lesser</p>
-                      <p className="text-gray-300">• Option 2: 125% = $12.75M</p>
-                      <p className="text-gray-300">• Can receive: $18.5M (greater of the two)</p>
-                      <p className="text-gray-300">• Result: <span className="text-red-300">Hard capped at 1st apron</span></p>
-                    </div>
-
-                    <div className="p-3 bg-gray-700 rounded">
-                      <p className="font-semibold text-orange-400">Expanded Trade Example 2:</p>
-                      <p className="text-gray-300">• Send out: $40M player</p>
-                      <p className="text-gray-300">• Option 1 (lesser of):</p>
-                      <p className="text-gray-300 ml-4">- 200%: $80.25M</p>
-                      <p className="text-gray-300 ml-4">- 100% + $8.5M: $48.5M ← lesser</p>
-                      <p className="text-gray-300">• Option 2: 125% = $50.25M ← greater!</p>
-                      <p className="text-gray-300">• Can receive: $50.25M</p>
-                      <p className="text-gray-300 text-xs">• Note: 125% option better for larger salaries</p>
-                    </div>
-                    
-                    <div className="p-3 bg-gray-700 rounded">
-                      <p className="font-semibold text-red-400">First Apron Team Trade:</p>
-                      <p className="text-gray-300">• Send out: $20M player</p>
-                      <p className="text-gray-300">• Can receive: Up to $20M (NO $250k cushion)</p>
-                      <p className="text-gray-300">• Very limited flexibility</p>
-                    </div>
-                    
-                    <div className="p-3 bg-gray-700 rounded">
-                      <p className="font-semibold text-purple-400">TPE Creation & Usage:</p>
-                      <p className="text-gray-300">• Created when sending out more salary than receiving</p>
-                      <p className="text-gray-300">• Example: Send $20M, receive $15M = $5M TPE</p>
-                      <p className="text-gray-300">• Valid for 1 year from creation date</p>
-                      <p className="text-gray-300">• <span className="text-red-300">Cannot use if over 1st/2nd apron</span></p>
-                    </div>
-                  </div>
-                </div>
+                {/* League Salary Chart */}
+                <LeagueSalaryChart />
 
                 {/* Cap Allocations vs Apron Salary Explanation */}
                 <div className="mt-8 bg-gray-800 rounded-lg p-6">
@@ -1591,6 +1766,63 @@
                         <li>• <span className="font-semibold">First Apron Teams:</span> CAN aggregate salaries but NO $250k cushion (must match exactly)</li>
                         <li>• <span className="font-semibold">Second Apron Teams:</span> Cannot take back more salary, cannot aggregate, cannot use cash</li>
                       </ul>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Trade Examples - MOVED TO BOTTOM */}
+                <div className="mt-8 bg-gray-800 rounded-lg p-6">
+                  <h3 className="text-xl font-semibold mb-4">Trade Examples (2025-26)</h3>
+                  <div className="space-y-3 text-sm">
+                    <div className="p-3 bg-gray-700 rounded">
+                      <p className="font-semibold text-green-400">Standard Trade (Non-Tax Team):</p>
+                      <p className="text-gray-300">• Send out: $20M player</p>
+                      <p className="text-gray-300">• Can receive: Up to $20.25M (100% + $250k)</p>
+                      <p className="text-gray-300">• Creates TPE: If receive less (e.g., $15M = $5M TPE)</p>
+                    </div>
+                    
+                    <div className="p-3 bg-gray-700 rounded">
+                      <p className="font-semibold text-yellow-400">Aggregated Trade (Tax Team):</p>
+                      <p className="text-gray-300">• Send out: $15M + $10M = $25M total</p>
+                      <p className="text-gray-300">• Can receive: Up to $25.25M</p>
+                      <p className="text-gray-300">• Result: <span className="text-red-300">Hard capped at 2nd apron</span></p>
+                    </div>
+                    
+                    <div className="p-3 bg-gray-700 rounded">
+                      <p className="font-semibold text-orange-400">Expanded Trade (Non-Tax Team):</p>
+                      <p className="text-gray-300">• Send out: $10M player</p>
+                      <p className="text-gray-300">• Option 1 (lesser of):</p>
+                      <p className="text-gray-300 ml-4">- 200%: $20.25M</p>
+                      <p className="text-gray-300 ml-4">- 100% + $8.5M: $18.5M ← lesser</p>
+                      <p className="text-gray-300">• Option 2: 125% = $12.75M</p>
+                      <p className="text-gray-300">• Can receive: $18.5M (greater of the two)</p>
+                      <p className="text-gray-300">• Result: <span className="text-red-300">Hard capped at 1st apron</span></p>
+                    </div>
+
+                    <div className="p-3 bg-gray-700 rounded">
+                      <p className="font-semibold text-orange-400">Expanded Trade Example 2:</p>
+                      <p className="text-gray-300">• Send out: $40M player</p>
+                      <p className="text-gray-300">• Option 1 (lesser of):</p>
+                      <p className="text-gray-300 ml-4">- 200%: $80.25M</p>
+                      <p className="text-gray-300 ml-4">- 100% + $8.5M: $48.5M ← lesser</p>
+                      <p className="text-gray-300">• Option 2: 125% = $50.25M ← greater!</p>
+                      <p className="text-gray-300">• Can receive: $50.25M</p>
+                      <p className="text-gray-300 text-xs">• Note: 125% option better for larger salaries</p>
+                    </div>
+                    
+                    <div className="p-3 bg-gray-700 rounded">
+                      <p className="font-semibold text-red-400">First Apron Team Trade:</p>
+                      <p className="text-gray-300">• Send out: $20M player</p>
+                      <p className="text-gray-300">• Can receive: Up to $20M (NO $250k cushion)</p>
+                      <p className="text-gray-300">• Very limited flexibility</p>
+                    </div>
+                    
+                    <div className="p-3 bg-gray-700 rounded">
+                      <p className="font-semibold text-purple-400">TPE Creation & Usage:</p>
+                      <p className="text-gray-300">• Created when sending out more salary than receiving</p>
+                      <p className="text-gray-300">• Example: Send $20M, receive $15M = $5M TPE</p>
+                      <p className="text-gray-300">• Valid for 1 year from creation date</p>
+                      <p className="text-gray-300">• <span className="text-red-300">Cannot use if over 1st/2nd apron</span></p>
                     </div>
                   </div>
                 </div>
