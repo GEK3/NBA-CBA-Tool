@@ -355,38 +355,38 @@
           }
         };
 
-        // Team salary data for 2025-26 season (updated with both Cap Allocations and Apron Salary)
+        // Team salary data for 2025-26 season (updated with Cap Allocations, Apron Salary, and Tax Salary)
         const teamData = {
-          ATL: { capSalary: 197.607, apronSalary: 182.384, hardCap: "first", reason: "Signed Luke Kennard using MLE (Jul 8)", exceptionsUsed: ["NTMLE"] },
-          BKN: { capSalary: 134.734, apronSalary: 115.208, hardCap: "second", exceptionsUsed: [], capSpace: 19.91301 },
-          BOS: { capSalary: 237.439, apronSalary: 208.156, hardCap: null, exceptionsUsed: [] },
-          CHA: { capSalary: 192.372, apronSalary: 176.099, hardCap: "first", reason: "Used exception triggering hard cap", exceptionsUsed: [] },
-          CHI: { capSalary: 183.022, apronSalary: 152.259, hardCap: "first", exceptionsUsed: [] },
-          CLE: { capSalary: 243.137, apronSalary: 227.538, hardCap: null, exceptionsUsed: [] },
-          DAL: { capSalary: 228.701, apronSalary: 206.240, hardCap: "second", reason: "Signed D'Angelo Russell using MLE (Jul 6)", exceptionsUsed: ["MLE"] },
-          DEN: { capSalary: 213.894, apronSalary: 198.519, hardCap: "second", reason: "Aggregated salaries in Jun 30 trade", exceptionsUsed: ["aggregation"] },
-          DET: { capSalary: 174.719, apronSalary: 165.440, hardCap: "first", reason: "Used exception triggering hard cap", exceptionsUsed: ["NTMLE"] },
-          GSW: { capSalary: 250.530, apronSalary: 170.932, hardCap: null, exceptionsUsed: [] },
-          HOU: { capSalary: 201.082, apronSalary: 192.393, hardCap: "first", reason: "Signed Dorian Finney-Smith (Jul 6)", exceptionsUsed: ["NTMLE"] },
-          IND: { capSalary: 189.250, apronSalary: 182.353, hardCap: "first", exceptionsUsed: [] },
-          LAC: { capSalary: 205.485, apronSalary: 187.016, hardCap: "first", reason: "Split NT-MLE between Brook Lopez (Jul 6) and Bradley Beal ($5.354M)", exceptionsUsed: ["NTMLE"] },
-          LAL: { capSalary: 214.182, apronSalary: 195.036, hardCap: "first", reason: "Signed Jake LaRavia (Jul 6)", exceptionsUsed: [] },
-          MEM: { capSalary: 180.196, apronSalary: 172.007, hardCap: "first", reason: "Signed Ty Jerome using Room MLE (Jun 30)", exceptionsUsed: ["RoomMLE"] },
-          MIA: { capSalary: 202.819, apronSalary: 191.789, hardCap: "first", reason: "Used exception triggering hard cap", exceptionsUsed: [] },
-          MIL: { capSalary: 171.786, apronSalary: 174.186, hardCap: null, exceptionsUsed: [] },
-          MIN: { capSalary: 241.476, apronSalary: 201.965, hardCap: null, exceptionsUsed: [] },
-          NOP: { capSalary: 206.456, apronSalary: 190.004, hardCap: "first", reason: "Signed Kevon Looney (Jul 6)", exceptionsUsed: ["NTMLE"] },
-          NYK: { capSalary: 233.580, apronSalary: 204.106, hardCap: "second", reason: "Signed Guerschon Yabusele using MLE (Jul 6)", exceptionsUsed: ["MLE"] },
-          OKC: { capSalary: 193.029, apronSalary: 187.378, hardCap: null, exceptionsUsed: [] },
-          ORL: { capSalary: 198.874, apronSalary: 194.704, hardCap: "first", reason: "Signed Tyus Jones (Jul 6)", exceptionsUsed: ["NTMLE"] },
-          PHI: { capSalary: 206.372, apronSalary: 186.065, hardCap: null, exceptionsUsed: [] },
-          PHX: { capSalary: 213.083, apronSalary: 187.071, hardCap: null, exceptionsUsed: [] },
-          POR: { capSalary: 187.068, apronSalary: 171.636, hardCap: "first", reason: "Used exception triggering hard cap", exceptionsUsed: [] },
-          SAC: { capSalary: 211.726, apronSalary: 186.062, hardCap: "first", reason: "Used exception triggering hard cap", exceptionsUsed: [] },
-          SAS: { capSalary: 206.152, apronSalary: 181.342, hardCap: "first", reason: "Signed Luke Kornet (Jul 7)", exceptionsUsed: ["NTMLE"] },
-          TOR: { capSalary: 221.429, apronSalary: 199.260, hardCap: null, exceptionsUsed: [] },
-          UTA: { capSalary: 150.358, apronSalary: 146.260, hardCap: "first", exceptionsUsed: [] },
-          WAS: { capSalary: 241.051, apronSalary: 165.193, hardCap: "first", reason: "Used exception triggering hard cap", exceptionsUsed: [] }
+          ATL: { capSalary: 197.607, apronSalary: 182.384, taxSalary: 182.384, hardCap: "first", reason: "Signed Luke Kennard using MLE (Jul 8)", exceptionsUsed: ["NTMLE"] },
+          BKN: { capSalary: 134.734, apronSalary: 115.208, taxSalary: 114.424, hardCap: "second", exceptionsUsed: [], capSpace: 19.91301 },
+          BOS: { capSalary: 237.439, apronSalary: 208.156, taxSalary: 208.156, hardCap: null, exceptionsUsed: [] },
+          CHA: { capSalary: 192.372, apronSalary: 176.099, taxSalary: 171.007, hardCap: "first", reason: "Used exception triggering hard cap", exceptionsUsed: [] },
+          CHI: { capSalary: 183.022, apronSalary: 152.259, taxSalary: 149.276, hardCap: "first", exceptionsUsed: [] },
+          CLE: { capSalary: 243.137, apronSalary: 227.538, taxSalary: 225.015, hardCap: null, exceptionsUsed: [] },
+          DAL: { capSalary: 228.701, apronSalary: 206.240, taxSalary: 204.457, hardCap: "second", reason: "Signed D'Angelo Russell using MLE (Jul 6)", exceptionsUsed: ["MLE"] },
+          DEN: { capSalary: 213.894, apronSalary: 198.519, taxSalary: 193.723, hardCap: "second", reason: "Aggregated salaries in Jun 30 trade", exceptionsUsed: ["aggregation"] },
+          DET: { capSalary: 174.719, apronSalary: 165.440, taxSalary: 163.168, hardCap: "first", reason: "Used exception triggering hard cap", exceptionsUsed: ["NTMLE"] },
+          GSW: { capSalary: 250.530, apronSalary: 170.932, taxSalary: 170.506, hardCap: null, exceptionsUsed: [] },
+          HOU: { capSalary: 201.082, apronSalary: 192.393, taxSalary: 192.393, hardCap: "first", reason: "Signed Dorian Finney-Smith (Jul 6)", exceptionsUsed: ["NTMLE"] },
+          IND: { capSalary: 189.250, apronSalary: 182.353, taxSalary: 180.561, hardCap: "first", exceptionsUsed: [] },
+          LAC: { capSalary: 205.485, apronSalary: 187.016, taxSalary: 192.371, hardCap: "first", reason: "Split NT-MLE between Brook Lopez (Jul 6) and Bradley Beal ($5.354M)", exceptionsUsed: ["NTMLE"] },
+          LAL: { capSalary: 214.182, apronSalary: 195.036, taxSalary: 193.764, hardCap: "first", reason: "Signed Jake LaRavia (Jul 6)", exceptionsUsed: [] },
+          MEM: { capSalary: 180.196, apronSalary: 172.007, taxSalary: 171.507, hardCap: "first", reason: "Signed Ty Jerome using Room MLE (Jun 30)", exceptionsUsed: ["RoomMLE"] },
+          MIA: { capSalary: 202.819, apronSalary: 191.789, taxSalary: 189.289, hardCap: "first", reason: "Used exception triggering hard cap", exceptionsUsed: [] },
+          MIL: { capSalary: 171.786, apronSalary: 174.186, taxSalary: 171.786, hardCap: null, exceptionsUsed: [] },
+          MIN: { capSalary: 241.476, apronSalary: 201.965, taxSalary: 200.285, hardCap: null, exceptionsUsed: [] },
+          NOP: { capSalary: 206.456, apronSalary: 190.004, taxSalary: 182.379, hardCap: "first", reason: "Signed Kevon Looney (Jul 6)", exceptionsUsed: ["NTMLE"] },
+          NYK: { capSalary: 233.580, apronSalary: 204.106, taxSalary: 204.106, hardCap: "second", reason: "Signed Guerschon Yabusele using MLE (Jul 6)", exceptionsUsed: ["MLE"] },
+          OKC: { capSalary: 193.029, apronSalary: 187.378, taxSalary: 186.878, hardCap: null, exceptionsUsed: [] },
+          ORL: { capSalary: 198.874, apronSalary: 194.704, taxSalary: 192.198, hardCap: "first", reason: "Signed Tyus Jones (Jul 6)", exceptionsUsed: ["NTMLE"] },
+          PHI: { capSalary: 206.372, apronSalary: 186.065, taxSalary: 186.841, hardCap: null, exceptionsUsed: [] },
+          PHX: { capSalary: 213.083, apronSalary: 187.071, taxSalary: 184.546, hardCap: null, exceptionsUsed: [] },
+          POR: { capSalary: 187.068, apronSalary: 171.636, taxSalary: 184.079, hardCap: "first", reason: "Used exception triggering hard cap", exceptionsUsed: [] },
+          SAC: { capSalary: 211.726, apronSalary: 186.062, taxSalary: 181.190, hardCap: "first", reason: "Used exception triggering hard cap", exceptionsUsed: [] },
+          SAS: { capSalary: 206.152, apronSalary: 181.342, taxSalary: 177.642, hardCap: "first", reason: "Signed Luke Kornet (Jul 7)", exceptionsUsed: ["NTMLE"] },
+          TOR: { capSalary: 221.429, apronSalary: 199.260, taxSalary: 192.894, hardCap: null, exceptionsUsed: [] },
+          UTA: { capSalary: 150.358, apronSalary: 146.260, taxSalary: 146.260, hardCap: "first", exceptionsUsed: [] },
+          WAS: { capSalary: 241.051, apronSalary: 165.193, taxSalary: 161.721, hardCap: "first", reason: "Used exception triggering hard cap", exceptionsUsed: [] }
         };
 
         // Team colors for visual representation
@@ -430,6 +430,7 @@
           // Get the selected salary value for each team
           const getTeamSalary = (team) => {
             if (salaryView === "capSalary") return team.capSalary;
+            if (salaryView === "taxSalary") return team.taxSalary;
             return team.apronSalary; // Default to apron salary
           };
           
@@ -440,8 +441,8 @@
 
           // Chart dimensions
           const chartWidth = 800;
-          const chartHeight = 920;
-          const margin = { top: 20, right: 120, bottom: 60, left: 50 };
+          const chartHeight = 930;
+          const margin = { top: 20, right: 160, bottom: 60, left: 50 };
           const barHeight = 20;
           const barSpacing = 8;
 
@@ -470,15 +471,27 @@
             return "#10B981"; // Green
           };
 
+          // Get descriptive text for each view
+          const getViewDescription = () => {
+            switch(salaryView) {
+              case "apronSalary":
+                return "Showing apron salary (excludes cap holds - used for apron status)";
+              case "capSalary":
+                return "Showing total cap allocations (includes cap holds, exceptions, etc.)";
+              case "taxSalary":
+                return "Showing tax calculation salary (amount used for luxury tax calculations)";
+              default:
+                return "";
+            }
+          };
+
           return (
             <div className="bg-gray-800 rounded-lg p-6 overflow-x-auto">
               <div className="flex justify-between items-start mb-4">
                 <div>
                   <h3 className="text-xl font-semibold">League Salary Overview (2025-26)</h3>
                   <p className="text-xs text-gray-400 mt-1">
-                    {salaryView === "capSalary" 
-                      ? "Showing total cap allocations (includes cap holds, exceptions, etc.)"
-                      : "Showing apron salary (excludes cap holds - used for apron status)"}
+                    {getViewDescription()}
                   </p>
                 </div>
                 <div className="flex flex-col items-end">
@@ -490,6 +503,7 @@
                   >
                     <option value="apronSalary">Apron Salary (for status)</option>
                     <option value="capSalary">Cap Allocations (total)</option>
+                    <option value="taxSalary">Tax Salary (for tax bill)</option>
                   </select>
                 </div>
               </div>
@@ -581,15 +595,27 @@
                         </text>
                       )}
                       
-                      {/* Show difference between cap and apron if viewing cap allocations */}
-                      {salaryView === "capSalary" && (
+                      {/* Show difference between selected view and apron salary */}
+                      {salaryView !== "apronSalary" && (
                         <text
                           x={scaleX(salary) + 90}
                           y={y + barHeight / 2 + 4}
                           fill="#9CA3AF"
                           fontSize="9"
                         >
-                          (Δ ${(teamData.capSalary - teamData.apronSalary).toFixed(1)}M)
+                          (Δ ${(salary - teamData.apronSalary).toFixed(1)}M)
+                        </text>
+                      )}
+                      
+                      {/* Tax bill indicator for tax salary view */}
+                      {salaryView === "taxSalary" && salary > luxuryTax && (
+                        <text
+                          x={scaleX(salary) + 140}
+                          y={y + barHeight / 2 + 4}
+                          fill="#FCD34D"
+                          fontSize="9"
+                        >
+                          💸${((salary - luxuryTax) > 0 ? (salary - luxuryTax).toFixed(1) : 0)}M
                         </text>
                       )}
                     </g>
@@ -634,7 +660,7 @@
 
                 {/* Title */}
                 <text x={chartWidth / 2} y={15} textAnchor="middle" fill="white" fontSize="14" fontWeight="bold">
-                  Team {salaryView === "capSalary" ? "Cap Allocations" : "Apron Salaries"} vs. Key Thresholds
+                  Team {salaryView === "capSalary" ? "Cap Allocations" : salaryView === "taxSalary" ? "Tax Salaries" : "Apron Salaries"} vs. Key Thresholds
                 </text>
               </svg>
 
@@ -666,6 +692,15 @@
                   <p className="text-gray-400">
                     <span className="font-semibold text-yellow-400">Note:</span> Cap Allocations include cap holds, exception holds, and incomplete roster charges. 
                     The (Δ) shows the difference between cap allocations and apron salary for each team.
+                  </p>
+                </div>
+              )}
+              
+              {salaryView === "taxSalary" && (
+                <div className="mt-4 p-3 bg-gray-700 rounded text-xs">
+                  <p className="text-gray-400">
+                    <span className="font-semibold text-yellow-400">Note:</span> Tax Salary is used to calculate luxury tax bills. 
+                    The (Δ) shows the difference from apron salary. Teams over $187.895M show estimated tax amount (💸).
                   </p>
                 </div>
               )}
@@ -797,35 +832,49 @@
                 {/* League Salary Chart */}
                 <LeagueSalaryChart />
 
-                {/* Cap Allocations vs Apron Salary Explanation */}
+                {/* Cap Allocations vs Apron Salary vs Tax Salary Explanation */}
                 <div className="mt-8 bg-gray-800 rounded-lg p-6">
-                  <h3 className="text-xl font-semibold mb-4">Understanding Cap Allocations vs. Apron Salary</h3>
+                  <h3 className="text-xl font-semibold mb-4">Understanding Different Salary Calculations</h3>
                   <div className="p-4 bg-gray-700 rounded-lg mb-4">
-                    <h4 className="font-semibold text-yellow-400 mb-2">Why Two Different Numbers?</h4>
+                    <h4 className="font-semibold text-yellow-400 mb-2">Why Three Different Numbers?</h4>
                     <p className="text-sm text-gray-300 mb-3">
-                      The NBA uses different calculations for determining cap space versus apron status:
+                      The NBA uses different calculations for various cap management purposes:
                     </p>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div className="p-3 bg-gray-600 rounded">
-                        <p className="text-green-400 font-semibold text-sm mb-1">Cap Allocations (for cap space)</p>
+                        <p className="text-green-400 font-semibold text-sm mb-1">Cap Allocations</p>
+                        <p className="text-xs text-gray-400 mb-2">For determining cap space</p>
                         <ul className="text-xs text-gray-300 space-y-1">
                           <li>✓ Active player salaries</li>
-                          <li>✓ Dead money (waived/stretched)</li>
+                          <li>✓ Dead money</li>
                           <li>✓ Free agent cap holds</li>
                           <li>✓ First-round pick holds</li>
-                          <li>✓ Exception holds (MLE, BAE)</li>
+                          <li>✓ Exception holds</li>
                           <li>✓ Incomplete roster charges</li>
                         </ul>
                       </div>
                       <div className="p-3 bg-gray-600 rounded">
-                        <p className="text-blue-400 font-semibold text-sm mb-1">Apron Salary (for apron status)</p>
+                        <p className="text-blue-400 font-semibold text-sm mb-1">Apron Salary</p>
+                        <p className="text-xs text-gray-400 mb-2">For apron status & restrictions</p>
                         <ul className="text-xs text-gray-300 space-y-1">
                           <li>✓ Active player salaries</li>
-                          <li>✓ Dead money (waived/stretched)</li>
+                          <li>✓ Dead money</li>
                           <li>✗ Free agent cap holds</li>
                           <li>✗ First-round pick holds</li>
                           <li>✗ Exception holds</li>
                           <li>✗ Incomplete roster charges</li>
+                        </ul>
+                      </div>
+                      <div className="p-3 bg-gray-600 rounded">
+                        <p className="text-yellow-400 font-semibold text-sm mb-1">Tax Salary</p>
+                        <p className="text-xs text-gray-400 mb-2">For luxury tax calculations</p>
+                        <ul className="text-xs text-gray-300 space-y-1">
+                          <li>✓ Active player salaries</li>
+                          <li>✓ Dead money</li>
+                          <li>✓ Likely incentives</li>
+                          <li>✗ Unlikely incentives</li>
+                          <li>✗ Cap holds</li>
+                          <li>• May differ from apron due to timing/incentives</li>
                         </ul>
                       </div>
                     </div>
@@ -835,6 +884,7 @@
                     <p className="text-yellow-300 text-xs mt-1">
                       This is why a team like Washington can have an apron salary of $165.2M (under the first apron) 
                       but cap allocations of $241.1M (well over the cap). They have $75.9M in cap holds!
+                      Tax salary is typically close to apron salary but may vary based on incentives and timing.
                     </p>
                   </div>
                 </div>
@@ -922,26 +972,34 @@
                         </div>
                       )}
                       
-                      {/* Cap vs Apron Salary Explanation */}
+                      {/* Cap vs Apron vs Tax Salary Explanation */}
                       {selectedTeam && (
                         <div className="mt-3 p-3 bg-blue-900/30 border border-blue-700 rounded-lg">
-                          <p className="text-blue-400 text-xs font-semibold mb-2">📊 Cap Allocations vs. Apron Salary</p>
+                          <p className="text-blue-400 text-xs font-semibold mb-2">📊 Three Different Salary Calculations</p>
                           <div className="space-y-1 text-xs">
                             <div className="flex justify-between">
-                              <span className="text-gray-400">Total Cap Allocations:</span>
+                              <span className="text-gray-400">Cap Allocations:</span>
                               <span className="text-white">${teamData[selectedTeam].capSalary.toFixed(1)}M</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-gray-400">Tax Salary:</span>
+                              <span className="text-white">${teamData[selectedTeam].taxSalary.toFixed(1)}M</span>
                             </div>
                             <div className="flex justify-between">
                               <span className="text-gray-400">Apron Salary:</span>
                               <span className="text-white">${teamData[selectedTeam].apronSalary.toFixed(1)}M</span>
                             </div>
-                            <div className="flex justify-between">
-                              <span className="text-gray-400">Difference (Cap Holds):</span>
+                            <div className="flex justify-between pt-1 border-t border-gray-600">
+                              <span className="text-gray-400">Difference (Cap - Apron):</span>
                               <span className="text-yellow-400">${(teamData[selectedTeam].capSalary - teamData[selectedTeam].apronSalary).toFixed(1)}M</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-gray-400">Difference (Tax - Apron):</span>
+                              <span className="text-yellow-400">${(teamData[selectedTeam].taxSalary - teamData[selectedTeam].apronSalary).toFixed(1)}M</span>
                             </div>
                           </div>
                           <p className="text-gray-400 text-xs mt-2">
-                            * Cap allocations include free agent holds, exception holds, and incomplete roster charges
+                            * Cap allocations include holds • Tax salary used for luxury tax • Apron salary determines restrictions
                           </p>
                         </div>
                       )}
@@ -987,6 +1045,10 @@
                             <div className="flex justify-between">
                               <span className="text-gray-400">Cap Allocations:</span>
                               <span className="text-white">${teamData[selectedTeam].capSalary.toFixed(1)}M</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-gray-400">Tax Salary:</span>
+                              <span className="text-white">${teamData[selectedTeam].taxSalary.toFixed(1)}M</span>
                             </div>
                             <div className="flex justify-between">
                               <span className="text-gray-400">Apron Salary:</span>
@@ -1316,6 +1378,10 @@
                             <span className="text-white">${teamData[selectedTeam].capSalary.toFixed(1)}M</span>
                           </div>
                           <div className="flex justify-between">
+                            <span className="text-gray-400">Tax Salary:</span>
+                            <span className="text-white">${teamData[selectedTeam].taxSalary.toFixed(1)}M</span>
+                          </div>
+                          <div className="flex justify-between">
                             <span className="text-gray-400">Apron Salary:</span>
                             <span className="text-white">${teamData[selectedTeam].apronSalary.toFixed(1)}M</span>
                           </div>
@@ -1564,13 +1630,14 @@
                 {/* Actual Teams Cap Situation */}
                 <div className="mt-8 bg-gray-800 rounded-lg p-6">
                   <h3 className="text-xl font-semibold mb-4">NBA Team Cap Situations (2025-26)</h3>
-                  <p className="text-xs text-gray-400 mb-3">Showing both Total Cap Allocations and Apron Salary for each team</p>
+                  <p className="text-xs text-gray-400 mb-3">Showing Cap Allocations, Tax Salary, and Apron Salary for each team</p>
                   <div className="overflow-x-auto">
                     <table className="w-full text-xs">
                       <thead>
                         <tr className="border-b border-gray-700 text-gray-400 uppercase">
                           <th className="text-left py-2 px-1">Team</th>
                           <th className="text-center py-2 px-1">Cap Alloc</th>
+                          <th className="text-center py-2 px-1">Tax Sal</th>
                           <th className="text-center py-2 px-1">Apron Sal</th>
                           <th className="text-center py-2 px-1">Status</th>
                           <th className="text-center py-2 px-1">Hard Cap</th>
@@ -1582,6 +1649,7 @@
                         <tr className="border-b border-gray-700/30">
                           <td className="py-2 px-1 font-medium">BKN</td>
                           <td className="text-center py-2 px-1">$134.7M</td>
+                          <td className="text-center py-2 px-1">$114.4M</td>
                           <td className="text-center py-2 px-1">$115.2M</td>
                           <td className="text-center py-2 px-1 text-green-400">Under Cap</td>
                           <td className="text-center py-2 px-1">—</td>
@@ -1592,6 +1660,7 @@
                         <tr className="border-b border-gray-700/30">
                           <td className="py-2 px-1 font-medium">WAS</td>
                           <td className="text-center py-2 px-1">$241.1M</td>
+                          <td className="text-center py-2 px-1">$161.7M</td>
                           <td className="text-center py-2 px-1">$165.2M</td>
                           <td className="text-center py-2 px-1 text-yellow-400">Over Tax*</td>
                           <td className="text-center py-2 px-1 text-red-400">🔒 1st</td>
@@ -1599,17 +1668,19 @@
                         </tr>
                         <tr className="border-b border-gray-700/30">
                           <td className="py-2 px-1 font-medium">MIN</td>
-                          <td className="text-center py-2 px-1">$241.4M</td>
+                          <td className="text-center py-2 px-1">$241.5M</td>
                           <td className="text-center py-2 px-1">$200.3M</td>
-                          <td className="text-center py-2 px-1 text-yellow-400">Over Tax</td>
+                          <td className="text-center py-2 px-1">$202.0M</td>
+                          <td className="text-center py-2 px-1 text-orange-400">Over 1st</td>
                           <td className="text-center py-2 px-1">—</td>
-                          <td className="text-center py-2 px-1 text-xs">$41.19M in cap holds</td>
+                          <td className="text-center py-2 px-1 text-xs">$39.5M in cap holds</td>
                         </tr>
                         
                         {/* Teams at/near aprons */}
                         <tr className="border-b border-gray-700/30">
                           <td className="py-2 px-1 font-medium">LAL</td>
                           <td className="text-center py-2 px-1">$214.2M</td>
+                          <td className="text-center py-2 px-1">$193.8M</td>
                           <td className="text-center py-2 px-1">$195.0M</td>
                           <td className="text-center py-2 px-1 text-yellow-400">Over Tax</td>
                           <td className="text-center py-2 px-1 text-red-400">🔒 1st</td>
@@ -1618,6 +1689,7 @@
                         <tr className="border-b border-gray-700/30">
                           <td className="py-2 px-1 font-medium">DEN</td>
                           <td className="text-center py-2 px-1">$213.9M</td>
+                          <td className="text-center py-2 px-1">$193.7M</td>
                           <td className="text-center py-2 px-1">$198.5M</td>
                           <td className="text-center py-2 px-1 text-orange-400">Over 1st</td>
                           <td className="text-center py-2 px-1 text-red-400">🔒 2nd</td>
@@ -1629,22 +1701,25 @@
                           <td className="py-2 px-1 font-medium">BOS</td>
                           <td className="text-center py-2 px-1">$237.4M</td>
                           <td className="text-center py-2 px-1">$208.2M</td>
+                          <td className="text-center py-2 px-1">$208.2M</td>
                           <td className="text-center py-2 px-1 text-red-400">Over 2nd</td>
                           <td className="text-center py-2 px-1">—</td>
                           <td className="text-center py-2 px-1 text-xs">No hard cap</td>
                         </tr>
                         <tr className="border-b border-gray-700/30">
                           <td className="py-2 px-1 font-medium">PHX</td>
-                          <td className="text-center py-2 px-1">$213.083M</td>
-                          <td className="text-center py-2 px-1">$185.795M</td>
+                          <td className="text-center py-2 px-1">$213.1M</td>
+                          <td className="text-center py-2 px-1">$184.5M</td>
+                          <td className="text-center py-2 px-1">$187.1M</td>
                           <td className="text-center py-2 px-1 text-blue-400">Non-Tax</td>
                           <td className="text-center py-2 px-1">—</td>
-                          <td className="text-center py-2 px-1 text-xs">Equal cap/apron</td>
+                          <td className="text-center py-2 px-1 text-xs">Cap holds difference</td>
                         </tr>
                         <tr className="border-b border-gray-700/30">
                           <td className="py-2 px-1 font-medium">CLE</td>
                           <td className="text-center py-2 px-1">$243.1M</td>
-                          <td className="text-center py-2 px-1">$224.5M</td>
+                          <td className="text-center py-2 px-1">$225.0M</td>
+                          <td className="text-center py-2 px-1">$227.5M</td>
                           <td className="text-center py-2 px-1 text-red-400">Over 2nd</td>
                           <td className="text-center py-2 px-1">—</td>
                           <td className="text-center py-2 px-1 text-xs">No hard cap</td>
@@ -1656,8 +1731,11 @@
                         <span className="font-semibold text-yellow-400">* Note on Status:</span> Apron status is based on Apron Salary (excludes cap holds). 
                         Teams like WAS show as "Over Tax" based on apron salary but have no actual cap space due to holds.
                       </p>
-                      <p className="text-gray-400">
+                      <p className="text-gray-400 mb-1">
                         <span className="font-semibold">🔒 Hard Caps:</span> 1st Apron = $195.945M | 2nd Apron = $207.824M
+                      </p>
+                      <p className="text-gray-400">
+                        <span className="font-semibold">Tax Salary:</span> Used for luxury tax calculations, may differ from apron salary due to incentives and timing.
                       </p>
                     </div>
                   </div>
