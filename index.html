@@ -46,7 +46,7 @@
             { id: "BAE", label: "Bi-Annual Exception ($5.134M)", description: "Can be used every other year" },
             { id: "SNT_Acquire", label: "Sign-and-Trade (Acquire)", description: "Receive a player via sign-and-trade" },
             { id: "TradeStandard", label: "Standard Trade Matching", description: "Match salaries within 100% plus $250,000" },
-            { id: "TradeAggregated", label: "Aggregated Trade Matching", description: "Combine 2+ contracts to match salaries (hard caps at second apron)" },
+            { id: "", label: "Aggregated Trade Matching", description: "Combine 2+ contracts to match salaries (hard caps at second apron)" },
             { id: "TradeExpanded", label: "Expanded Trade Matching", description: "Take back up to 200% or 125% of outgoing salary (hard caps at first apron)" },
             { id: "TPEUse", label: "Trade Player Exception", description: "Use existing trade exceptions" },
             { id: "VetMin", label: "Veteran Minimum", description: "Sign players to minimum contracts" },
@@ -198,7 +198,7 @@
               "Useful for acquiring higher-salaried players"
             ],
             cons: [
-              "Triggers hard cap at second apron",
+"Hard caps team at second apron - must stay under $207.824M post-trade",
               "Cannot aggregate players acquired via exception in prior 2 months",
               "Complex rules on minimum salary players",
               "Must be simultaneous trades",
